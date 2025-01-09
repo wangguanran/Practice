@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup name="Person">
-import { reactive } from 'vue'
+import { reactive, toRef, toRefs } from 'vue'
 
 // 数据
 let car = reactive({ brand: '奔驰', price: 100 })
@@ -20,6 +20,11 @@ let games = reactive([
     { id: "002", name: "王者荣耀" },
     { id: '003', name: '原神' }
 ])
+
+let person = reactive({ name: 'zhangsan', age: 18, gender: 'man' })
+
+let { name, gender } = toRefs(person)
+let age = toRef(person, 'age')
 
 // 方法
 function changeCarPrice() {
