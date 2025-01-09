@@ -32,8 +32,14 @@ export default {
             alert(tel)
         }
 
+        // 返回对象，对象中的：属性、方法等，在模板中均可以直接使用
         return { name, age, tel, changeName, changeAge, showTel }
     }
+
+    // 返回函数，自定义渲染内容
+    // setup() {
+    //     return () => '你好啊'
+    // }
 }
 </script>
 
