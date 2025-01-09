@@ -1,47 +1,34 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div class="person">
+        <h2>姓名：{{ name }}</h2>
+        <h2>年龄：{{ age }}</h2>
+        <button @click="changeName">修改名字</button>
+        <button @click="changeAge">年龄+1</button>
+        <button @click="showTel">点我查看联系方式</button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script lang="ts" setup name="Person">
+import { ref } from 'vue'
+
+// 数据
+let name = ref('张三')
+let age = ref(18)
+let tel = '13888888888'
+
+// 方法
+function changeName() {
+    name.value = 'zhangsan'
+    console.log(name)
+}
+function changeAge() {
+    age.value += 1
+    console.log(age)
+}
+function showTel() {
+    alert(tel)
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+</script>
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
