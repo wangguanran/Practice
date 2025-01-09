@@ -1,0 +1,35 @@
+npm create vue@latest
+
+wangguanran@DESKTOP-R10DVRS:~/Codes/Practice/Vue/1.创建vue项目/1.2.基于vite创建项目$ npm create vue@latest
+Need to install the following packages:
+create-vue@3.13.0
+Ok to proceed? (y) y
+
+
+> npx
+> create-vue
+
+RangeError: Incorrect locale information provided
+
+
+Vue.js - The Progressive JavaScript Framework
+
+✔ Project name: … vue-project
+✔ Add TypeScript? … No / Yes
+✔ Add JSX Support? … No / Yes
+✔ Add Vue Router for Single Page Application development? … No / Yes
+✔ Add Pinia for state management? … No / Yes
+✔ Add Vitest for Unit Testing? … No / Yes
+✔ Add an End-to-End Testing Solution? › Cypress
+✔ Add ESLint for code quality? › Yes
+✔ Add Prettier for code formatting? … No / Yes
+
+Scaffolding project in /home/wangguanran/Codes/Practice/Vue/1.创建vue项目/1.2.基于vite创建项目/vue-project...
+
+Done. Now run:
+
+  cd vue-project
+  npm install
+  npm run format
+  npm run dev
+

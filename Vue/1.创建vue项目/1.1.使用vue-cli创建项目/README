@@ -1,0 +1,43 @@
+vue create vue2
+vue create vue3
+
+wangguanran@DESKTOP-R10DVRS:~/Codes/Practice/Vue/1.创建vue项目/1.1.使用vue-cli创建项目$ vue create vue3
+(node:22274) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+?  Your connection to the default npm registry seems to be slow.
+   Use https://registry.npmmirror.com for faster installation? Yes
+
+
+
+Vue CLI v5.0.8
+? Please pick a preset: Default ([Vue 3] babel, eslint)
+
+
+
+Vue CLI v5.0.8
+✨  Creating project in /home/wangguanran/Codes/Practice/Vue/1.创建vue项目/1.1.使用vue-cli创建项目/vue3.
+⚙️  Installing CLI plugins. This might take a while...
+
+
+added 831 packages in 17s
+
+105 packages are looking for funding
+  run `npm fund` for details
+🚀  Invoking generators...
+📦  Installing additional dependencies...
+
+
+added 88 packages in 2s
+
+117 packages are looking for funding
+  run `npm fund` for details
+⚓  Running completion hooks...
+
+📄  Generating README.md...
+
+🎉  Successfully created project vue3.
+👉  Get started with the following commands:
+
+ $ cd vue3
+ $ npm run serve
+
