@@ -1,47 +1,34 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+let title1 = ref()
+let title2 = ref()
+let title3 = ref()
+
+function showLog() {
+    // 通过id获取元素
+    const t1 = document.getElementById('title1')
+    console.log(t1)
+    console.log((t1 as HTMLElement).innerText)
+    console.log((<HTMLElement>t1).innerText)
+    console.log(t1?.innerText)
+
+    // 通过ref获取元素
+    console.log(title1.value)
+    console.log(title2.value)
+    console.log(title3.value)
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div>
+        <h1 id="title1" ref="title1">尚硅谷</h1>
+        <h2 ref="title2">前端</h2>
+        <h3 ref="title3">Vue</h3>
+        <input type="text" ref="input"><br>
+        <button @click="showLog">点我打印内容</button>
+        <br>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
