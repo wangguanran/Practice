@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import Person from './components/Person.vue'
 
 let title1 = ref()
 let title2 = ref()
 let title3 = ref()
+
+let person = ref()
 
 function showLog() {
     // 通过id获取元素
@@ -17,6 +20,10 @@ function showLog() {
     console.log(title1.value)
     console.log(title2.value)
     console.log(title3.value)
+
+    // 获取子组件的数据
+    console.log(person.value.name)
+    console.log(person.value.age)
 }
 </script>
 
@@ -28,6 +35,7 @@ function showLog() {
         <input type="text" ref="input"><br>
         <button @click="showLog">点我打印内容</button>
         <br>
+        <Person ref="person" />
     </div>
 </template>
 
