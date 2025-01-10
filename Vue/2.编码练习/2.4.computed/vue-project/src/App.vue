@@ -1,39 +1,38 @@
 <template>
     <div>
-        <h2>汽车信息：一台 {{ car.brand }}，价值{{ car.price }}万</h2>
-        <h2>游戏列表：</h2>
-        <ul>
-            <li v-for="g in games" :key="g.id">{{ g.name }}</li>
-        </ul>
-        <button @click="changeCarPrice">修改汽车价格</button>
-        <button @click="changeFirstGame">修改第一游戏</button>
+        姓:<input v-model="firstName" placeholder="" placeholder-class="input-placeholder" @input="" />
+        名:<input v-model="lastName" placeholder="" placeholder-class="input-placeholder" @input="" />
+        全名:<span>{{ fullName }}</span>
+        <button @click="changeFullName">全名改为:li-si</button>
     </div>
 </template>
 
 <script lang="ts" setup name="Person">
-import { reactive, toRef, toRefs } from 'vue'
+import { computed, ref } from 'vue'
 
-// 数据
-let car = reactive({ brand: '奔驰', price: 100 })
-let games = reactive([
-    { id: '001', name: '英雄联盟' },
-    { id: "002", name: "王者荣耀" },
-    { id: '003', name: '原神' }
-])
+let firstName = ref('zhang')
+let lastName = ref('san')
 
-let person = reactive({ name: 'zhangsan', age: 18, gender: 'man' })
+// 计算属性 只读取，不修改
+// let fullName = computed(() => {
+//     console.log('123')
+//     return firstName.value + '-' + lastName.value;
+// })
 
-let { name, gender } = toRefs(person)
-let age = toRef(person, 'age')
+// 计算属性：既读取又修改
+let fullName = computed({
+    get() {
+        return firstName.value + '-' + lastName.value
+    },
+    set(val) {
+        firstName.value = val.split('-')[0]
+        lastName.value = val.split('-')[1]
+    }
+})
 
-// 方法
-function changeCarPrice() {
-    car.price += 10
+function changeFullName() {
+    fullName.value = 'li-si'
 }
-function changeFirstGame() {
-    games[0].name = '流星蝴蝶剑'
-}
-
 
 </script>
 
