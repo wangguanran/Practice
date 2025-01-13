@@ -177,3 +177,8 @@ sphinx_*/
 
 # Rust analyzer configuration
 /rust-project.json
+
+# Modify:wangguanran on: Tue, 14 Jan 2025 01:57:28 +0800
+# 忽略用于调试使用的文件
+initramfs.cpio
+# End of Modify:# wangguanran#
