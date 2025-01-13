@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# 挂载必要的文件系统
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+
+# 创建设备节点
+mknod /dev/console c 5 1
+mknod /dev/null c 1 3
+
+# 启动一个shell
+exec /bin/sh
