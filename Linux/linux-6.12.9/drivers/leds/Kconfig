@@ -314,6 +314,12 @@ config LEDS_WRAP
 	help
 	  This option enables support for the PCEngines WRAP programmable LEDs.
 
+config LEDS_DEMO
+    tristate "LED Support Demo"
+    depends on LEDS_CLASS
+    help
+      This option enables support for the LEDS Demo.
+
 config LEDS_COBALT_QUBE
 	tristate "LED Support for the Cobalt Qube series front LED"
 	depends on LEDS_CLASS
