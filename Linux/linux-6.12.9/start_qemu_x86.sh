@@ -7,5 +7,9 @@ find . | cpio -H newc -o > ../initramfs.cpio
 cd -
 # 启动内核
 qemu-system-x86_64 \
-	-kernel arch/x86/boot/bzImage \
-	-initrd initramfs.cpio
+    -kernel arch/x86/boot/bzImage \
+    -initrd initramfs.cpio \
+    -append "console=ttyS0,921600" \
+    -serial mon:stdio \
+    -D ~/kernel.log \
+    -nographic
