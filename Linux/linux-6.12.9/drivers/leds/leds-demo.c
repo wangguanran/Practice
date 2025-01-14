@@ -7,6 +7,9 @@ struct demo_led_data {
 	struct led_classdev cdev;
 };
 
+// 全局变量
+static struct demo_led_data demo_led;
+
 // LED亮度设置函数
 static void demo_led_brightness_set(struct led_classdev *cdev,
 				    enum led_brightness brightness)
@@ -17,7 +20,6 @@ static void demo_led_brightness_set(struct led_classdev *cdev,
 // LED初始化函数
 static int __init demo_led_init(void)
 {
-	static struct demo_led_data demo_led;
 	int ret;
 
 	pr_info("demo_led: initializing\n");
@@ -41,8 +43,6 @@ static int __init demo_led_init(void)
 // LED退出函数
 static void __exit demo_led_exit(void)
 {
-	static struct demo_led_data demo_led;
-
 	pr_info("demo_led: exiting\n");
 
 	// 注销LED类设备
