@@ -1,6 +1,6 @@
 # 拷贝驱动ko
 mkdir -p initramfs/lib/modules/kernel/
-find ./drivers -name '*demo*.ko' -exec cp {} initramfs/lib/modules/kernel/ \;
+find ./drivers -name '*.ko' -exec cp {} initramfs/lib/modules/kernel/ \;
 # 打包initramfs
 cd initramfs
 find . | cpio -H newc -o > ../initramfs.cpio
