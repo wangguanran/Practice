@@ -53,7 +53,7 @@ mkdir -p $INITRAMFS_DIR/lib/modules/kernel/
 # 打包initramfs
 echo -e "\e[32mPacking initramfs...\e[0m"
 cd $INITRAMFS_DIR
-find . | cpio -H newc -o >../initramfs.cpio
+find . -name '.gitkeep' -prune -o -print | cpio -H newc -o >../initramfs.cpio
 cd -
 
 # 启动内核
@@ -74,7 +74,9 @@ elif [ "$ARCH" == "arm64" ]; then
         -append "console=ttyAMA0" \
         -serial $SERIAL \
         -nographic \
-        $([ "$DUMP_DTB" == true ] && echo "-machine dumpdtb=default-$ARCH.dtb")
+        $([ "$DUMP_DTB" == true ] && echo "-machine dumpdtb=default-$ARCH.dtb") \
+
+        # $([ "$DUMP_DTB" == false ] && echo "-dtb default-$ARCH.dtb")
 
     if [ "$DUMP_DTB" == true ]; then
         echo -e "\e[32mDumping dtb file...\e[0m"
