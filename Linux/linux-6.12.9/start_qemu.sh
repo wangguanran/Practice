@@ -41,17 +41,18 @@ done
 INITRAMFS_DIR="initramfs.$ARCH"
 
 echo -e "\e[32mUsing architecture: $ARCH\e[0m"
-echo -e "\e[32mUsing serial output: $SERIAL\e[0m"
-echo -e "\e[32mINITRAMFS_DIR: $INITRAMFS_DIR\e[0m"
+echo -e "Using serial output: $SERIAL"
+echo -e "INITRAMFS_DIR: $INITRAMFS_DIR"
 
 # 拷贝驱动ko
-echo -e "\e[32mCopying driver modules...\e[0m"
+echo -e "Copying driver modules..."
 rm -rf $INITRAMFS_DIR/lib/modules/kernel/
 mkdir -p $INITRAMFS_DIR/lib/modules/kernel/
-# find ./drivers -name '*.ko' -exec cp {} $INITRAMFS_DIR/lib/modules/kernel/ \;
+# find . -name 'leds-demo.ko' -exec cp {} $INITRAMFS_DIR/lib/modules/kernel/ \;
+# find . -name 'leds-gpio.ko' -exec cp {} $INITRAMFS_DIR/lib/modules/kernel/ \;
 
 # 打包initramfs
-echo -e "\e[32mPacking initramfs...\e[0m"
+echo -e "Packing initramfs..."
 cd $INITRAMFS_DIR
 find . -name '.gitkeep' -prune -o -print | cpio -H newc -o >../initramfs.cpio
 cd -
@@ -66,24 +67,20 @@ if [ "$ARCH" == "x86_64" ]; then
         -serial $SERIAL \
         -nographic
 elif [ "$ARCH" == "arm64" ]; then
+    DTB_FILE="arch/arm64/boot/dts/qemu-arm64.dtb"
+    DTS_FILE="arch/arm64/boot/dts/qemu-arm64.dts"
     qemu-system-aarch64 \
-        -machine virt \
-        -cpu cortex-a57 \
         -kernel arch/arm64/boot/Image \
         -initrd initramfs.cpio \
         -append "console=ttyAMA0" \
         -serial $SERIAL \
         -nographic \
-        $([ "$DUMP_DTB" == true ] && echo "-machine dumpdtb=default-$ARCH.dtb") \
-
-        # $([ "$DUMP_DTB" == false ] && echo "-dtb default-$ARCH.dtb")
+        -machine virt$([ "$DUMP_DTB" == "true" ] && echo ",dumpdtb=$DTB_FILE") \
+        -cpu cortex-a53
 
     if [ "$DUMP_DTB" == true ]; then
-        echo -e "\e[32mDumping dtb file...\e[0m"
-        DTB_FILE="default-$ARCH.dtb"
-        DTS_FILE="default-$ARCH.dts"
+        echo -e "DTB file dumped and converted to DTS."
         dtc -I dtb -O dts -o "$DTS_FILE" "$DTB_FILE"
-        echo -e "\e[32mDTB file dumped and converted to DTS.\e[0m"
     fi
 else
     echo "Unsupported architecture: $ARCH"
