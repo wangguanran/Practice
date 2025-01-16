@@ -69,6 +69,10 @@ if [ "$ARCH" == "x86_64" ]; then
 elif [ "$ARCH" == "arm64" ]; then
     DTB_FILE="arch/arm64/boot/dts/qemu-arm64.dtb"
     DTS_FILE="arch/arm64/boot/dts/qemu-arm64.dts"
+
+    # 编译设备树
+    dtc -I dts -O dtb -o "$DTB_FILE" "$DTS_FILE"
+
     qemu-system-aarch64 \
         -kernel arch/arm64/boot/Image \
         -initrd initramfs.cpio \
@@ -76,7 +80,8 @@ elif [ "$ARCH" == "arm64" ]; then
         -serial $SERIAL \
         -nographic \
         -machine virt$([ "$DUMP_DTB" == "true" ] && echo ",dumpdtb=$DTB_FILE") \
-        -cpu cortex-a53
+        -cpu cortex-a53 \
+        -dtb $DTB_FILE
 
     if [ "$DUMP_DTB" == true ]; then
         echo -e "DTB file dumped and converted to DTS."
