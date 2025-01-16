@@ -77,9 +77,9 @@ echo -e "Using serial output: $SERIAL"
 echo -e "INITRAMFS_DIR: $INITRAMFS_DIR"
 
 # 拷贝驱动ko
-echo -e "Copying driver modules..."
-rm -rf $INITRAMFS_DIR/lib/modules/kernel/
-mkdir -p $INITRAMFS_DIR/lib/modules/kernel/
+# echo -e "Copying driver modules..."
+# rm -rf $INITRAMFS_DIR/lib/modules/kernel/
+# mkdir -p $INITRAMFS_DIR/lib/modules/kernel/
 # find . -name 'leds-demo.ko' -exec cp {} $INITRAMFS_DIR/lib/modules/kernel/ \;
 # find . -name 'leds-gpio.ko' -exec cp {} $INITRAMFS_DIR/lib/modules/kernel/ \;
 
