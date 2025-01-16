@@ -270,6 +270,19 @@
 		};
 	};
 
+    leds {
+        compatible = "gpio-leds";
+        led-0 {
+            gpios = <0x8004 0x04 0x00>;
+            default-state = "keep";
+        };
+
+        led-1 {
+            gpios = <0x8004 0x05 0x00>;
+            default-state = "keep";
+        };
+    };
+
 	pl061@9030000 {
 		phandle = <0x8004>;
 		clock-names = "apb_pclk";
