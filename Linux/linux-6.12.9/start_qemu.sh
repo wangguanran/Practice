@@ -4,6 +4,22 @@ SERIAL="mon:stdio"
 DUMP_DTB=false
 BUILD_KERNEL=false
 
+log_info() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+log_warn() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+log_error() {
+    echo -e "\e[31m$1\e[0m"
+}
+
+log_debug() {
+    echo "$1"
+}
+
 print_help() {
     echo "Usage: $0 --arch ARCH [--serial SERIAL] [--dump] [--build]"
     echo "Options:"
@@ -44,7 +60,7 @@ while [[ "$#" -gt 0 ]]; do
         ;;
     --dump)
         if [ "$ARCH" != "arm64" ]; then
-            echo "Error: --dump is only supported for arm64 architecture."
+            log_error "Error: --dump is only supported for arm64 architecture."
             exit 1
         fi
         DUMP_DTB=true
@@ -57,7 +73,7 @@ while [[ "$#" -gt 0 ]]; do
         exit 0
         ;;
     *)
-        echo "Unknown parameter passed: $1"
+        log_error "Unknown parameter passed: $1"
         exit 1
         ;;
     esac
@@ -65,16 +81,16 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if [ -z "$ARCH" ]; then
-    echo "Error: --arch is a required option."
+    log_error "Error: --arch is a required option."
     print_help
     exit 1
 fi
 
 INITRAMFS_DIR="initramfs.$ARCH"
 
-echo -e "\e[32mUsing architecture: $ARCH\e[0m"
-echo -e "Using serial output: $SERIAL"
-echo -e "INITRAMFS_DIR: $INITRAMFS_DIR"
+log_info "Using architecture: $ARCH"
+log_info "Using serial output: $SERIAL"
+log_info "INITRAMFS_DIR: $INITRAMFS_DIR"
 
 # 拷贝驱动ko
 # echo -e "Copying driver modules..."
@@ -87,8 +103,7 @@ if [ "$DUMP_DTB" == true ]; then
     BUILD_KERNEL=false # 忽略 --build 指令
 fi
 if [ "$BUILD_KERNEL" == true ]; then
-    # 编译内核
-    echo -e "\e[32mCompiling kernel...\e[0m"
+    log_info "Compiling kernel..."
     if [ "$ARCH" == "x86_64" ]; then
         CROMSS_COMPILER_CMD=
         ln -sf .config.x86_64 .config
@@ -100,16 +115,18 @@ if [ "$BUILD_KERNEL" == true ]; then
         exit 1
     fi
     make ARCH=$ARCH $CROMSS_COMPILER_CMD -j$(nproc)
+else
+    log_warn "Skipping kernel build."
 fi
 
 # 打包initramfs
-echo -e "Packing initramfs..."
+log_info "Packing initramfs..."
 cd $INITRAMFS_DIR
 find . -name '.gitkeep' -prune -o -print | cpio -H newc -o >../initramfs.cpio
 cd -
 
 # 启动内核
-echo -e "\e[32mStarting kernel with QEMU...\e[0m"
+log_info "Starting kernel with QEMU..."
 if [ "$ARCH" == "x86_64" ]; then
     qemu-system-x86_64 \
         -kernel arch/x86/boot/bzImage \
@@ -135,7 +152,7 @@ elif [ "$ARCH" == "arm64" ]; then
         -dtb $DTB_FILE
 
     if [ "$DUMP_DTB" == true ]; then
-        echo -e "DTB file dumped and converted to DTS."
+        log_info "DTB file dumped and converted to DTS."
         dtc -I dtb -O dts -o "$DTS_FILE" "$DTB_FILE"
     fi
 else
@@ -143,4 +160,4 @@ else
     exit 1
 fi
 
-echo -e "\e[32mQEMU execution finished.\e[0m"
+log_info "QEMU execution finished."
