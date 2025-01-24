@@ -114,7 +114,18 @@ if [ "$BUILD_KERNEL" == true ]; then
         echo "Unsupported architecture: $ARCH"
         exit 1
     fi
+
+    make ARCH=$ARCH $CROMSS_COMPILER_CMD defconfig
+    if [ $? -ne 0 ]; then
+        log_error "Error: make defconfig failed."
+        exit 1
+    fi
+
     make ARCH=$ARCH $CROMSS_COMPILER_CMD -j$(nproc)
+    if [ $? -ne 0 ]; then
+        log_error "Error: kernel compilation failed."
+        exit 1
+    fi
 else
     log_warn "Skipping kernel build."
 fi
