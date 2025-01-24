@@ -21,12 +21,13 @@ log_debug() {
 }
 
 print_help() {
-    echo "Usage: $0 --arch ARCH [--serial SERIAL] [--dump] [--build]"
+    echo "Usage: $0 --arch ARCH [--serial SERIAL] [--dump] [--build] [--check-env]"
     echo "Options:"
     echo "  --arch ARCH       Set the architecture (required)"
     echo "  --serial SERIAL   Set the serial output (file or console, default: console)"
     echo "  --dump            Dump the dtb file and convert it to dts (only for arm64)"
     echo "  --build           Build the kernel"
+    echo "  --check-env       Check and install required environment"
     echo "Examples:"
     echo "  $0 --arch x86_64 --serial console --build  # Use x86_64 architecture, serial output to console, and build the kernel"
     echo "  $0 --arch arm64 --serial file --dump       # Use arm64 architecture, serial output to file, and dump dtb file"
@@ -34,6 +35,15 @@ print_help() {
     echo "  $0 --arch arm64 --serial console           # Use arm64 architecture and serial output to console"
     echo "  $0 --arch x86_64                           # Use x86_64 architecture"
     echo "  $0 --arch arm64 --dump                     # Use arm64 architecture and dump dtb file"
+    echo "  $0 --check-env                             # Check and install required environment"
+}
+
+check_and_install_env() {
+    log_info "Checking and installing required environment..."
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y \
+    build-essential gcc-aarch64-linux-gnu bison flex libssl-dev libncurses5-dev make gcc libelf-dev libssl-dev \
+    qemu-system-x86 qemu-system-x86-xen qemu-system-arm
 }
 
 if [ "$#" -eq 0 ]; then
@@ -67,6 +77,10 @@ while [[ "$#" -gt 0 ]]; do
         ;;
     --build)
         BUILD_KERNEL=true
+        ;;
+    --check-env)
+        check_and_install_env
+        exit 0
         ;;
     --help)
         print_help
